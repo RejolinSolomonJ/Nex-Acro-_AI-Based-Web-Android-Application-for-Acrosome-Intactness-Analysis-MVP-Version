@@ -22,7 +22,7 @@ async def connect_to_database():
         database=database,
         document_models=[User, AnalysisRecord],
     )
-    print(f"✅  Connected to MongoDB: {settings.DATABASE_NAME}")
+    print(f"[OK] Connected to MongoDB: {settings.DATABASE_NAME}")
 
 
 async def close_database_connection():
@@ -30,7 +30,7 @@ async def close_database_connection():
     global _client
     if _client:
         _client.close()
-        print("🔌  MongoDB connection closed.")
+        print("[OK] MongoDB connection closed.")
 
 
 def get_database():

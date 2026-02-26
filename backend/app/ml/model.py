@@ -141,7 +141,7 @@ def load_trained_model(model_path: str = None) -> tf.keras.Model:
     """Load a saved trained model from disk."""
     path = model_path or settings.MODEL_PATH
     model = tf.keras.models.load_model(path)
-    print(f"✅  Model loaded from: {path}")
+    print(f"[OK] Model loaded from: {path}")
     return model
 
 

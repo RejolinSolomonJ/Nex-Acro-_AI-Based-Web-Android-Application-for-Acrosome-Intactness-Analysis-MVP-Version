@@ -168,7 +168,7 @@ def train_model(
     image_size = (settings.IMAGE_SIZE, settings.IMAGE_SIZE)
 
     print("=" * 60)
-    print("🔬  ACROSOME INTACTNESS MODEL TRAINING")
+    print("ACROSOME INTACTNESS MODEL TRAINING")
     print("=" * 60)
     print(f"  Model type    : {model_type}")
     print(f"  Dataset       : {data_dir}")
@@ -180,7 +180,7 @@ def train_model(
     print("=" * 60)
 
     # ── Step 1: Create data generators ───────────────────────
-    print("\n📂  Loading dataset...")
+    print("\n[INFO] Loading dataset...")
     train_gen, val_gen = create_data_generators(
         data_dir, image_size, batch_size
     )
@@ -190,7 +190,7 @@ def train_model(
     print(f"  Classes            : {train_gen.class_indices}")
 
     # ── Step 2: Build model ──────────────────────────────────
-    print(f"\n🏗️  Building {model_type} model...")
+    print(f"\n[INFO] Building {model_type} model...")
     if model_type == "mobilenet":
         model = build_mobilenet_model(learning_rate=learning_rate)
     else:
@@ -200,10 +200,10 @@ def train_model(
 
     # ── Step 3: Compute class weights ────────────────────────
     class_weights = compute_weights(train_gen)
-    print(f"\n⚖️  Class weights: {class_weights}")
+    print(f"\n[INFO] Class weights: {class_weights}")
 
     # ── Step 4: Train ────────────────────────────────────────
-    print("\n🚀  Starting training...")
+    print("\n[INFO] Starting training...")
     callbacks = get_callbacks(output_path)
 
     history = model.fit(
@@ -218,7 +218,7 @@ def train_model(
     )
 
     # ── Step 5: Evaluate ─────────────────────────────────────
-    print("\n📊  Final Evaluation on Validation Set:")
+    print("\n[EVAL] Final Evaluation on Validation Set:")
     results = model.evaluate(val_gen, verbose=0)
     metrics = dict(zip(model.metrics_names, results))
 
@@ -227,14 +227,14 @@ def train_model(
 
     # ── Step 6: Save final model ─────────────────────────────
     model.save(output_path)
-    print(f"\n💾  Model saved to: {output_path}")
+    print(f"\n[SAVE] Model saved to: {output_path}")
 
     # Also save as SavedModel format for serving
     savedmodel_path = output_path.replace(".h5", "_savedmodel")
     model.save(savedmodel_path)
-    print(f"💾  SavedModel saved to: {savedmodel_path}")
+    print(f"[SAVE] SavedModel saved to: {savedmodel_path}")
 
-    print("\n✅  Training complete!")
+    print("\n[OK] Training complete!")
     return history, metrics
 
 

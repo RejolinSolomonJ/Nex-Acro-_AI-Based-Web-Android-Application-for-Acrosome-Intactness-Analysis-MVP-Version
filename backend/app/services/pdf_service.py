@@ -249,5 +249,5 @@ def generate_analysis_report(
     report_path = os.path.join(settings.REPORTS_DIR, report_filename)
     pdf.output(report_path)
 
-    print(f"📄  PDF report generated: {report_path}")
+    print(f"[OK] PDF report generated: {report_path}")
     return report_path

@@ -20,12 +20,12 @@ from app.routes import auth, analysis, analytics, reports
 async def lifespan(app: FastAPI):
     """Startup / shutdown events."""
     # Startup
-    print("🚀  Starting Acrosome Intactness Analysis API...")
+    print("[START] Starting Acrosome Intactness Analysis API...")
     await connect_to_database()
     yield
     # Shutdown
     await close_database_connection()
-    print("👋  Server shut down.")
+    print("[STOP] Server shut down.")
 
 
 # ── Create Application ───────────────────────────────────────

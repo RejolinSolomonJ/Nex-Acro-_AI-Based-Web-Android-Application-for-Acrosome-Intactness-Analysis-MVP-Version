@@ -35,9 +35,9 @@ def _load_model_lazy():
         import tensorflow as tf
         _model = tf.keras.models.load_model(model_path)
         _model_loaded = True
-        print(f"✅  ML Model loaded: {model_path}")
+        print(f"[OK] ML Model loaded: {model_path}")
     else:
-        print(f"⚠️  No trained model found at {model_path}. Using mock predictions.")
+        print(f"[WARN] No trained model found at {model_path}. Using mock predictions.")
         _model = None
         _model_loaded = True
 

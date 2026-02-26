@@ -57,7 +57,7 @@ async def analyze_images(
         is_valid, error_msg = validate_image_file(file.filename, file_size)
         if not is_valid:
             # Skip invalid files but log the issue
-            print(f"⚠️  Skipped invalid file: {file.filename} – {error_msg}")
+            print(f"[WARN] Skipped invalid file: {file.filename} - {error_msg}")
             continue
 
         # Generate unique filename
@@ -124,7 +124,7 @@ async def analyze_images(
     )
 
     await record.insert()
-    print(f"✅  Analysis saved: {session_id} | {total} images | {intact_pct}% intact")
+    print(f"[OK] Analysis saved: {session_id} | {total} images | {intact_pct}% intact")
 
     return record
 
