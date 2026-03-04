@@ -10,7 +10,7 @@ Both output binary classification: Intact (1) vs Damaged (0)
 
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers
-from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications import MobileNetV2, ResNet50V2
 
 from app.config import settings
 
@@ -122,6 +122,50 @@ def build_custom_cnn(
         layers.Dropout(0.3),
         layers.Dense(1, activation="sigmoid"),
     ], name="AcrosomeCustomCNN")
+
+    model.compile(
+        optimizer=optimizers.Adam(learning_rate=learning_rate),
+        loss="binary_crossentropy",
+        metrics=[
+            "accuracy",
+            tf.keras.metrics.Precision(name="precision"),
+            tf.keras.metrics.Recall(name="recall"),
+            tf.keras.metrics.AUC(name="auc"),
+        ],
+    )
+
+    return model
+
+
+def build_resnet50_model(
+    input_shape: tuple = INPUT_SHAPE,
+    learning_rate: float = 1e-4,
+    fine_tune_layers: int = 30,
+) -> tf.keras.Model:
+    """
+    Transfer-learning model using ResNet50V2 backbone.
+    More powerful feature extractor than MobileNetV2, ideal for the expanded diverse dataset.
+    """
+    base_model = ResNet50V2(
+        input_shape=input_shape,
+        include_top=False,
+        weights="imagenet",
+    )
+
+    base_model.trainable = True
+    for layer in base_model.layers[:-fine_tune_layers]:
+        layer.trainable = False
+
+    model = models.Sequential([
+        base_model,
+        layers.GlobalAveragePooling2D(),
+        layers.BatchNormalization(),
+        layers.Dropout(0.4),
+        layers.Dense(256, activation="relu"),
+        layers.BatchNormalization(),
+        layers.Dropout(0.3),
+        layers.Dense(1, activation="sigmoid"),
+    ], name="AcrosomeResNet50")
 
     model.compile(
         optimizer=optimizers.Adam(learning_rate=learning_rate),

@@ -32,3 +32,10 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+
+
+# Large image dataset directories
+dataset/
+dataset_prep/
+dataset_prep_thesis/
+test_images/

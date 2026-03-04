@@ -31,7 +31,7 @@ from tensorflow.keras.callbacks import (
 from sklearn.utils.class_weight import compute_class_weight
 
 from app.config import settings
-from app.ml.model import build_mobilenet_model, build_custom_cnn, get_model_summary
+from app.ml.model import build_mobilenet_model, build_custom_cnn, build_resnet50_model, get_model_summary
 
 
 def create_data_generators(
@@ -147,7 +147,7 @@ def get_callbacks(model_save_path: str) -> list:
 
 def train_model(
     data_dir: str,
-    model_type: str = "mobilenet",
+    model_type: str = "resnet50",
     epochs: int = 50,
     batch_size: int = 32,
     learning_rate: float = 1e-4,
@@ -158,7 +158,7 @@ def train_model(
 
     Args:
         data_dir: Path to dataset folder (with intact/ and damaged/ subfolders)
-        model_type: "mobilenet" or "custom"
+        model_type: "mobilenet", "resnet50", or "custom"
         epochs: Number of training epochs
         batch_size: Training batch size
         learning_rate: Initial learning rate
@@ -193,6 +193,8 @@ def train_model(
     print(f"\n[INFO] Building {model_type} model...")
     if model_type == "mobilenet":
         model = build_mobilenet_model(learning_rate=learning_rate)
+    elif model_type == "resnet50":
+        model = build_resnet50_model(learning_rate=learning_rate)
     else:
         model = build_custom_cnn(learning_rate=learning_rate)
 
@@ -241,7 +243,7 @@ def train_model(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train Acrosome CNN Model")
     parser.add_argument("--data_dir", type=str, required=True, help="Path to dataset folder")
-    parser.add_argument("--model_type", type=str, default="mobilenet", choices=["mobilenet", "custom"])
+    parser.add_argument("--model_type", type=str, default="resnet50", choices=["mobilenet", "custom", "resnet50"])
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--learning_rate", type=float, default=1e-4)
