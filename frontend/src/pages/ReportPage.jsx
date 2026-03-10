@@ -86,7 +86,7 @@ export default function ReportPage() {
     };
 
     // ── No state at all ──
-    if (!analyzing && !initialAnalysis && !analysisId && !analysis) {
+    if (!analysisId && !analysis && !apiLoading) {
         return (
             <div className="report-page animate-fade-in">
                 <div className="card" style={{ maxWidth: 480, margin: '100px auto', textAlign: 'center', padding: 40 }}>

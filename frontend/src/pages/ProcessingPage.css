@@ -242,6 +242,25 @@
     margin-bottom: 8px;
 }
 
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--error-bg);
+    color: var(--error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
 /* ── Grid Split Section ──────────────── */
 .grid-split-layout {
     display: grid;

@@ -128,7 +128,16 @@ export default function ProcessingPage() {
 
                 {/* Center visual */}
                 <div className="processing-visual glass-card">
-                    {!done ? (
+                    {error ? (
+                        <div className="error-container animate-fade-in-up">
+                            <div className="error-icon"><AlertCircle size={48} /></div>
+                            <h2>Analysis Failed</h2>
+                            <p className="text-muted">{error}</p>
+                            <button className="btn btn-secondary" onClick={() => navigate('/upload')} style={{ marginTop: 18 }}>
+                                Try Again
+                            </button>
+                        </div>
+                    ) : !done ? (
                         <div className="nucleus-container">
                             <div className="nucleus-ring ring-1" />
                             <div className="nucleus-ring ring-2" />
@@ -138,6 +147,14 @@ export default function ProcessingPage() {
                             </div>
                             <p className="processing-text">{STEPS[currentStep]?.label || 'Finishing…'}</p>
                             <p className="processing-progress">{currentStep}/{STEPS.length} steps</p>
+                        </div>
+                    ) : !apiResult ? (
+                        <div className="complete-container animate-fade-in-up">
+                            <div className="nucleus-core">
+                                <Loader2 size={32} className="animate-spin" />
+                            </div>
+                            <h2>Finalizing...</h2>
+                            <p className="text-muted">Waiting for AI to finish classification</p>
                         </div>
                     ) : (
                         <div className="complete-container animate-fade-in-up">
