@@ -29,13 +29,20 @@ def _load_model_lazy():
     if _model_loaded:
         return
 
-    model_path = settings.MODEL_PATH
-
     if os.path.exists(model_path):
-        import tensorflow as tf
-        _model = tf.keras.models.load_model(model_path)
-        _model_loaded = True
-        print(f"[OK] ML Model loaded: {model_path}")
+        try:
+            import tensorflow as tf
+            _model = tf.keras.models.load_model(model_path)
+            _model_loaded = True
+            print(f"[OK] ML Model loaded: {model_path}")
+        except ImportError:
+            print(f"[WARN] TensorFlow not installed. Using mock predictions.")
+            _model = None
+            _model_loaded = True
+        except Exception as e:
+            print(f"[ERROR] Failed to load model: {e}. Using mock predictions.")
+            _model = None
+            _model_loaded = True
     else:
         print(f"[WARN] No trained model found at {model_path}. Using mock predictions.")
         _model = None

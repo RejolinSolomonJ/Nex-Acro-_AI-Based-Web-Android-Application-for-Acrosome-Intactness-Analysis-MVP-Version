@@ -5,7 +5,7 @@ services:
     name: acrosome-api
     runtime: docker
     dockerContext: backend
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: Dockerfile
     plan: free
     region: singapore # Change to your nearest region
     envVars:
