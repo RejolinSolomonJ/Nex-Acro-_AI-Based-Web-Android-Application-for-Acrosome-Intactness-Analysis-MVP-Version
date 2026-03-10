@@ -15,7 +15,8 @@ _client: AsyncIOMotorClient | None = None
 async def connect_to_database():
     """Initialize MongoDB connection and Beanie ODM."""
     global _client
-    _client = AsyncIOMotorClient(settings.MONGODB_URL)
+    # Added .strip() to prevent 'InvalidURI' errors from accidental whitespace in Render env vars
+    _client = AsyncIOMotorClient(settings.MONGODB_URL.strip())
     database = _client[settings.DATABASE_NAME]
 
     await init_beanie(
