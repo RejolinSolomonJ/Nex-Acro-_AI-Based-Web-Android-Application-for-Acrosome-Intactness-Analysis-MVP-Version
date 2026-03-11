@@ -26,6 +26,82 @@ function canvasConvert(file) {
 }
 
 /**
+ * Validates if the image appears to be a microscopic sample instead of a generic natural photo.
+ * Uses colorfulness metric and grayscale standard deviation.
+ */
+async function validateImageContent(file) {
+    return new Promise((resolve) => {
+        // Skip validation for HEIF/HEIC since browser Image() might fail to load it immediately
+        if (file.type === 'image/heic' || file.name.match(/\.(heic|heif)$/i)) {
+            resolve(true);
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const size = 150;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, size, size);
+            URL.revokeObjectURL(url);
+
+            try {
+                const imgData = ctx.getImageData(0, 0, size, size).data;
+                const total = size * size;
+
+                let rgSum = 0, ybSum = 0, graySum = 0;
+                let grays = new Float32Array(total), rgVals = new Float32Array(total), ybVals = new Float32Array(total);
+
+                for (let i = 0, j = 0; j < total; i += 4, j++) {
+                    const r = imgData[i], g = imgData[i + 1], b = imgData[i + 2];
+                    const rg = Math.abs(r - g);
+                    const yb = Math.abs(0.5 * (r + g) - b);
+                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+
+                    rgVals[j] = rg; ybVals[j] = yb; grays[j] = gray;
+                    rgSum += rg; ybSum += yb; graySum += gray;
+                }
+
+                const rgMean = rgSum / total, ybMean = ybSum / total, grayMean = graySum / total;
+
+                let rgVarSum = 0, ybVarSum = 0, grayVarSum = 0;
+                for (let j = 0; j < total; j++) {
+                    rgVarSum += Math.pow(rgVals[j] - rgMean, 2);
+                    ybVarSum += Math.pow(ybVals[j] - ybMean, 2);
+                    grayVarSum += Math.pow(grays[j] - grayMean, 2);
+                }
+
+                const rgStd = Math.sqrt(rgVarSum / total);
+                const ybStd = Math.sqrt(ybVarSum / total);
+                const grayStd = Math.sqrt(grayVarSum / total);
+
+                // Hasler and Suesstrunk color metric
+                const colorfulness = Math.sqrt(Math.pow(rgStd, 2) + Math.pow(ybStd, 2)) + 0.3 * Math.sqrt(Math.pow(rgMean, 2) + Math.pow(ybMean, 2));
+
+                // Microscopic samples: low color variance (mostly stained 1 color or dull)
+                // Natural photos: Highly colorful (> 50-60) or huge global contrast (grayStd > 75)
+                if (colorfulness > 55 || (colorfulness > 35 && grayStd > 75) || (colorfulness < 5 && grayStd > 85)) {
+                    resolve(false);
+                    return;
+                }
+                resolve(true);
+            } catch (e) {
+                console.warn("Validation error fallback", e);
+                resolve(true);
+            }
+        };
+        img.onerror = () => {
+            URL.revokeObjectURL(url);
+            resolve(true);
+        };
+        img.src = url;
+    });
+}
+
+/**
  * Convert a file to a JPEG-compatible File.
  * Strategy: heic2any → canvas drawImage → raw file (best-effort).
  */
@@ -50,7 +126,7 @@ async function toCompatible(file) {
     try {
         return await canvasConvert(file);
     } catch (e) {
-        console.warn('Canvas conversion failed, using raw file:', e);
+        console.warn('Canvas fallback failed, using raw file:', e);
     }
 
     // 3️⃣ Last resort — return original file as-is
@@ -90,6 +166,18 @@ export default function UploadPage() {
         setConverting(prev => ({ ...prev, [gridId]: true }));
 
         try {
+            // Validate images to reject dog/scenic photos or non-medical uploads
+            for (const file of candidates) {
+                const isValid = await validateImageContent(file);
+                if (!isValid) {
+                    alert(`Upload Rejected: The image "${file.name}" does not appear to be a valid microscopic clinical sample. Please upload actual acrosome sample images.`);
+                    setConverting(prev => ({ ...prev, [gridId]: false }));
+                    const input = document.getElementById(`fileInput-${gridId}`);
+                    if (input) input.value = '';
+                    return; // END PROCESS immediately
+                }
+            }
+
             // Convert any HEIC files to JPEG (with fallbacks)
             const converted = await Promise.all(candidates.map(toCompatible));
 
