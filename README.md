@@ -123,5 +123,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🤝 Contact & Support
 
 **Developed by**: Lin's Infotech Company Limited
-
+**Contributed by**: Rejolin Solomon J | Veera Vaishnavi K
 **Project Purpose**: MVP Version for Acrosome Intactness Analysis
