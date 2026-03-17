@@ -161,25 +161,45 @@ def generate_analysis_report(
     
     # ══ Section 1 – Session Information ══════════════════════════════════════
     pdf.section_title("1.  Session Information")
+    pdf.kv_row("Patient Name",     record.patient_name or "N/A")
     pdf.kv_row("Session ID",       record.session_id)
     pdf.kv_row("Date & Time IST",  ist_time.strftime("%Y-%m-%d  %I:%M:%S %p"))
     pdf.kv_row("Sample ID",        record.sample_id or "N/A")
     pdf.kv_row("Patient ID",       record.patient_id or "N/A")
     
-    # New Patient Context
-    if record.age: pdf.kv_row("Age", str(record.age))
-    if record.occupation: pdf.kv_row("Occupation", record.occupation)
-    if record.height: pdf.kv_row("Height", f"{record.height} cm")
-    if record.weight: pdf.kv_row("Weight", f"{record.weight} kg")
-    if record.bmi: pdf.kv_row("BMI", f"{record.bmi:.1f}")
+    # Demographic context
+    if record.age: 
+        pdf.kv_row("Age", str(record.age), col_w=40)
+    if record.education: 
+        pdf.kv_row("Education", record.education, col_w=40)
+    if record.occupation: 
+        pdf.kv_row("Occupation", record.occupation, col_w=40)
+    if record.bmi: 
+        pdf.kv_row("BMI", f"{record.bmi:.1f}", col_w=40)
     
+    # History
+    if record.has_medical_history:
+        pdf.kv_row("Medical History", record.medical_history_details or "Yes")
+    if record.has_surgical_history:
+        pdf.kv_row("Surgical History", record.surgical_history_details or "Yes")
+    
+    # Sexual History
+    sexual = []
+    if record.sexual_abstinence: sexual.append(f"Abstinence: {record.sexual_abstinence}")
+    if record.sexual_lubricants: sexual.append(f"Lubricants: {record.sexual_lubricants}")
+    if record.sexual_std_history: sexual.append(f"STD: {record.sexual_std_history}")
+    if sexual:
+        pdf.kv_row("Sexual History", " | ".join(sexual))
+
+    # Lifestyle
     lifestyle = []
     if record.is_alcoholic: lifestyle.append("Alcoholic")
     if record.is_smoker: lifestyle.append("Smoker")
     if record.is_using_drugs: lifestyle.append("Drug User")
+    if record.physical_activity: lifestyle.append("Physically Active")
     
     if lifestyle:
-        pdf.kv_row("Lifestyle Factors", ", ".join(lifestyle))
+        pdf.kv_row("Lifestyle", ", ".join(lifestyle))
     
     pdf.kv_row("Total Images",     str(record.total_images))
     pdf.kv_row("Processing Time",  f"{record.total_processing_time_ms:.0f} ms")

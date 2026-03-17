@@ -103,13 +103,27 @@ export async function analyzeImages(files, sampleId, patientId, notes, patientDe
     
     // Add additional fields
     if (patientDetails.age) formData.append('age', patientDetails.age);
+    if (patientDetails.education) formData.append('education', patientDetails.education);
     if (patientDetails.occupation) formData.append('occupation', patientDetails.occupation);
+    if (patientDetails.address) formData.append('address', patientDetails.address);
     if (patientDetails.height) formData.append('height', patientDetails.height);
     if (patientDetails.weight) formData.append('weight', patientDetails.weight);
     if (patientDetails.bmi) formData.append('bmi', patientDetails.bmi);
-    if (patientDetails.isAlcoholic !== undefined) formData.append('is_alcoholic', patientDetails.isAlcoholic);
-    if (patientDetails.isSmoker !== undefined) formData.append('is_smoker', patientDetails.isSmoker);
-    if (patientDetails.isUsingDrugs !== undefined) formData.append('is_using_drugs', patientDetails.isUsingDrugs);
+
+    // Boolean fields (Lifestyle & History)
+    formData.append('is_alcoholic', patientDetails.alcohol ? 'true' : 'false');
+    formData.append('is_smoker', patientDetails.smoking ? 'true' : 'false');
+    formData.append('is_using_drugs', patientDetails.drugAbuse ? 'true' : 'false');
+    formData.append('physical_activity', patientDetails.physicalActivity ? 'true' : 'false');
+    formData.append('has_medical_history', patientDetails.hasMedicalHistory ? 'true' : 'false');
+    formData.append('has_surgical_history', patientDetails.hasSurgicalHistory ? 'true' : 'false');
+
+    // Details fields
+    if (patientDetails.medicalHistoryDetails) formData.append('medical_history_details', patientDetails.medicalHistoryDetails);
+    if (patientDetails.surgicalHistoryDetails) formData.append('surgical_history_details', patientDetails.surgicalHistoryDetails);
+    if (patientDetails.sexualAbstinence) formData.append('sexual_abstinence', patientDetails.sexualAbstinence);
+    if (patientDetails.sexualLubricants) formData.append('sexual_lubricants', patientDetails.sexualLubricants);
+    if (patientDetails.sexualStdHistory) formData.append('sexual_std_history', patientDetails.sexualStdHistory);
 
     const response = await fetch(`${BASE_URL}/api/analysis/analyze`, {
         method: 'POST',

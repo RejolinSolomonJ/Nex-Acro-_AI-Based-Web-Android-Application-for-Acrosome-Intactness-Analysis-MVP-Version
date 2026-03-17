@@ -66,13 +66,23 @@ class AnalysisResponse(BaseModel):
     patient_id: Optional[str] = None
     patient_name: Optional[str] = None
     age: Optional[int] = None
+    education: Optional[str] = None
     occupation: Optional[str] = None
+    address: Optional[str] = None
     height: Optional[float] = None
     weight: Optional[float] = None
     bmi: Optional[float] = None
     is_alcoholic: Optional[bool] = False
     is_smoker: Optional[bool] = False
     is_using_drugs: Optional[bool] = False
+    physical_activity: Optional[bool] = False
+    has_medical_history: Optional[bool] = False
+    medical_history_details: Optional[str] = None
+    has_surgical_history: Optional[bool] = False
+    surgical_history_details: Optional[str] = None
+    sexual_abstinence: Optional[str] = None
+    sexual_lubricants: Optional[str] = None
+    sexual_std_history: Optional[str] = None
     notes: Optional[str] = None
     created_at: datetime
     total_processing_time_ms: float
@@ -88,13 +98,23 @@ class AnalysisListItem(BaseModel):
     patient_id: Optional[str] = None
     patient_name: Optional[str] = None
     age: Optional[int] = None
+    education: Optional[str] = None
     occupation: Optional[str] = None
+    address: Optional[str] = None
     height: Optional[float] = None
     weight: Optional[float] = None
     bmi: Optional[float] = None
     is_alcoholic: Optional[bool] = False
     is_smoker: Optional[bool] = False
     is_using_drugs: Optional[bool] = False
+    physical_activity: Optional[bool] = False
+    has_medical_history: Optional[bool] = False
+    medical_history_details: Optional[str] = None
+    has_surgical_history: Optional[bool] = False
+    surgical_history_details: Optional[str] = None
+    sexual_abstinence: Optional[str] = None
+    sexual_lubricants: Optional[str] = None
+    sexual_std_history: Optional[str] = None
     notes: Optional[str] = None
     created_at: datetime
 

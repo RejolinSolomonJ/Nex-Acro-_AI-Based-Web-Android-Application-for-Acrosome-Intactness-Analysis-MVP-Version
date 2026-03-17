@@ -19,8 +19,12 @@
 
 .pd-form-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
 }
 
 .form-group {
@@ -66,9 +70,135 @@
     outline: none;
 }
 
-.readonly-input input {
+/* ── Tab Navigation ─────────────────── */
+.tab-navigation {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: var(--radius-sm);
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(110, 168, 254, 0.05);
+}
+
+.tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: rgba(110, 168, 254, 0.1);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.input-wrap.readonly-input input {
     background: var(--bg-alt);
     cursor: default;
+}
+
+.custom-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-family: var(--font);
+    resize: vertical;
+}
+
+.custom-textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.patient-details-row {
+    display: flex;
+    gap: 24px;
+}
+
+.patient-details-card.split {
+    flex: 1;
+}
+
+.history-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.custom-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: var(--font);
+}
+
+.custom-input.no-icon {
+    padding-left: 12px;
+}
+
+.lifestyle-switches-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.next-step-btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(110, 168, 254, 0.25);
+}
+
+.upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    color: var(--accent);
 }
 
 /* ── Grid Uploads ────────────────────── */
@@ -239,13 +369,7 @@
 }
 
 /* ── Lifestyle Switches ──────────────── */
-.lifestyle-switches {
-    display: flex;
-    gap: 32px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-light);
-}
+/* removed old lifestyle styles */
 
 .switch-group {
     display: flex;

@@ -60,19 +60,31 @@ async function toCompatible(file) {
 export default function UploadPage() {
     const navigate = useNavigate();
 
+    const [activeTab, setActiveTab] = useState('details');
+
     const [patientDetails, setPatientDetails] = useState({
+        date: new Date().toISOString().split('T')[0],
         patientName: '',
         patientId: '',
         sampleId: '',
-        date: new Date().toISOString().split('T')[0],
         age: '',
+        education: '',
         occupation: '',
+        address: '',
         height: '',
         weight: '',
         bmi: '',
-        isAlcoholic: false,
-        isSmoker: false,
-        isUsingDrugs: false
+        hasMedicalHistory: false,
+        medicalHistoryDetails: '',
+        hasSurgicalHistory: false,
+        surgicalHistoryDetails: '',
+        sexualAbstinence: '',
+        sexualLubricants: '',
+        sexualStdHistory: '',
+        smoking: false,
+        alcohol: false,
+        drugAbuse: false,
+        physicalActivity: false
     });
 
     const [grids, setGrids] = useState({ 1: [], 2: [], 3: [], 4: [] });
@@ -164,6 +176,16 @@ export default function UploadPage() {
         }
     };
 
+    const nextTab = () => {
+        setActiveTab('images');
+        window.scrollTo(0, 0);
+    };
+
+    const prevTab = () => {
+        setActiveTab('details');
+        window.scrollTo(0, 0);
+    };
+
     return (
         <div className="upload-page animate-fade-in">
             <div className="page-header">
@@ -171,110 +193,258 @@ export default function UploadPage() {
                     <h1>New Analysis</h1>
                     <p className="text-muted text-sm">Upload up to 4 images per grid (16 total) and patient details</p>
                 </div>
-                <button
-                    className={`btn ${isDetailsComplete && totalImages === 16 ? 'btn-primary' : 'btn-secondary'} start-analysis-btn`}
-                    disabled={!isReady}
-                    onClick={handleAnalyze}
-                >
-                    {isConverting ? <Loader2 size={18} className="animate-spin" /> : totalImages === 16 ? <Zap size={18} /> : <ArrowRight size={18} />}
-                    {isConverting ? 'Converting...' : totalImages === 16 ? 'Start Full Analysis' : `Start Partial (${totalImages}/16)`}
-                </button>
-            </div>
-
-            {/* Patient Details Form */}
-            <div className="patient-details-card glass-card">
-                <h3><User size={18} className="text-accent" /> Patient &amp; Sample Details</h3>
-                <div className="pd-form-grid">
-                    <div className="form-group">
-                        <label>Patient Name</label>
-                        <div className="input-wrap">
-                            <User size={16} />
-                            <input type="text" name="patientName" placeholder="e.g. Jane Doe" value={patientDetails.patientName} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Patient ID</label>
-                        <div className="input-wrap">
-                            <Hash size={16} />
-                            <input type="text" name="patientId" placeholder="e.g. PT-10024" value={patientDetails.patientId} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Sample ID</label>
-                        <div className="input-wrap">
-                            <FileText size={16} />
-                            <input type="text" name="sampleId" placeholder="e.g. SMP-2023X" value={patientDetails.sampleId} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Date</label>
-                        <div className="input-wrap">
-                            <Calendar size={16} />
-                            <input type="date" name="date" value={patientDetails.date} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Age</label>
-                        <div className="input-wrap">
-                            <Activity size={16} />
-                            <input type="number" name="age" placeholder="e.g. 32" value={patientDetails.age} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Occupation</label>
-                        <div className="input-wrap">
-                            <Briefcase size={16} />
-                            <input type="text" name="occupation" placeholder="e.g. Engineer" value={patientDetails.occupation} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Height (cm)</label>
-                        <div className="input-wrap">
-                            <Ruler size={16} />
-                            <input type="number" name="height" placeholder="e.g. 175" value={patientDetails.height} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Weight (kg)</label>
-                        <div className="input-wrap">
-                            <Activity size={16} />
-                            <input type="number" name="weight" placeholder="e.g. 70" value={patientDetails.weight} onChange={handleInputChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>BMI</label>
-                        <div className="input-wrap readonly-input">
-                            <Info size={16} />
-                            <input type="text" name="bmi" value={patientDetails.bmi} readOnly placeholder="Auto-calculated" />
-                        </div>
-                    </div>
+                <div className="tab-navigation">
+                    <button 
+                        className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('details')}
+                    >
+                        1. Patient & Sample Details
+                    </button>
+                    <button 
+                        className={`tab-btn ${activeTab === 'images' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('images')}
+                    >
+                        2. Upload Images
+                    </button>
                 </div>
-
-                {/* Lifestyle Switches */}
-                <div className="lifestyle-switches">
-                    <div className="switch-group">
-                        <label className="switch">
-                            <input type="checkbox" name="isAlcoholic" checked={patientDetails.isAlcoholic} onChange={handleInputChange} />
-                            <span className="slider"></span>
-                        </label>
-                        <span>Alcoholic</span>
-                    </div>
-                    <div className="switch-group">
-                        <label className="switch">
-                            <input type="checkbox" name="isSmoker" checked={patientDetails.isSmoker} onChange={handleInputChange} />
-                            <span className="slider"></span>
-                        </label>
-                        <span>Smoker</span>
-                    </div>
-                    <div className="switch-group">
-                        <label className="switch">
-                            <input type="checkbox" name="isUsingDrugs" checked={patientDetails.isUsingDrugs} onChange={handleInputChange} />
-                            <span className="slider"></span>
-                        </label>
-                        <span>Using Drugs</span>
-                    </div>
+                <div className="header-actions">
+                    {activeTab === 'images' && (
+                        <button
+                            className={`btn ${isDetailsComplete && totalImages === 16 ? 'btn-primary' : 'btn-secondary'} start-analysis-btn`}
+                            disabled={!isReady}
+                            onClick={handleAnalyze}
+                        >
+                            {isConverting ? <Loader2 size={18} className="animate-spin" /> : totalImages === 16 ? <Zap size={18} /> : <ArrowRight size={18} />}
+                            {isConverting ? 'Converting...' : totalImages === 16 ? 'Start Full Analysis' : `Start Partial (${totalImages}/16)`}
+                        </button>
+                    )}
                 </div>
             </div>
+
+            {activeTab === 'details' && (
+                <div className="patient-details-content animate-fade-in">
+                    {/* Section 1: Date */}
+                    <div className="patient-details-card glass-card">
+                        <h3><Calendar size={18} className="text-accent" /> (1) Date</h3>
+                        <div className="pd-form-grid">
+                            <div className="form-group">
+                                <label>Date</label>
+                                <div className="input-wrap">
+                                    <Calendar size={16} />
+                                    <input type="date" name="date" value={patientDetails.date} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 2: Patient Details */}
+                    <div className="patient-details-card glass-card">
+                        <h3><User size={18} className="text-accent" /> (2) Patient Details</h3>
+                        <div className="pd-form-grid">
+                            <div className="form-group">
+                                <label>Name</label>
+                                <div className="input-wrap">
+                                    <User size={16} />
+                                    <input type="text" name="patientName" placeholder="e.g. Jane Doe" value={patientDetails.patientName} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Pt ID</label>
+                                <div className="input-wrap">
+                                    <Hash size={16} />
+                                    <input type="text" name="patientId" placeholder="e.g. PT-10024" value={patientDetails.patientId} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Sample ID</label>
+                                <div className="input-wrap">
+                                    <FileText size={16} />
+                                    <input type="text" name="sampleId" placeholder="e.g. SMP-2023X" value={patientDetails.sampleId} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 3: Demographic Details */}
+                    <div className="patient-details-card glass-card">
+                        <h3><Activity size={18} className="text-accent" /> (3) Patient Demographic Details</h3>
+                        <div className="pd-form-grid">
+                            <div className="form-group">
+                                <label>Age</label>
+                                <div className="input-wrap">
+                                    <Activity size={16} />
+                                    <input type="number" name="age" placeholder="Age" value={patientDetails.age} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Education</label>
+                                <div className="input-wrap">
+                                    <FileText size={16} />
+                                    <input type="text" name="education" placeholder="Education" value={patientDetails.education} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Occupation</label>
+                                <div className="input-wrap">
+                                    <Briefcase size={16} />
+                                    <input type="text" name="occupation" placeholder="Occupation" value={patientDetails.occupation} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group full-width">
+                                <label>Address</label>
+                                <textarea 
+                                    name="address" 
+                                    placeholder="Full Address" 
+                                    className="custom-textarea"
+                                    value={patientDetails.address} 
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 4: Anthropometry */}
+                    <div className="patient-details-card glass-card">
+                        <h3><Ruler size={18} className="text-accent" /> (4) Anthropometry</h3>
+                        <div className="pd-form-grid">
+                            <div className="form-group">
+                                <label>Ht (cm)</label>
+                                <div className="input-wrap">
+                                    <Ruler size={16} />
+                                    <input type="number" name="height" placeholder="Height" value={patientDetails.height} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Wt (kg)</label>
+                                <div className="input-wrap">
+                                    <Activity size={16} />
+                                    <input type="number" name="weight" placeholder="Weight" value={patientDetails.weight} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>BMI</label>
+                                <div className="input-wrap readonly-input">
+                                    <Info size={16} />
+                                    <input type="text" name="bmi" value={patientDetails.bmi} readOnly placeholder="Auto" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 5 & 6: Medical and Surgical History */}
+                    <div className="patient-details-row">
+                        <div className="patient-details-card glass-card split">
+                            <h3><Activity size={18} className="text-accent" /> (5) Medical History</h3>
+                            <div className="history-row">
+                                <div className="switch-group">
+                                    <label className="switch">
+                                        <input type="checkbox" name="hasMedicalHistory" checked={patientDetails.hasMedicalHistory} onChange={handleInputChange} />
+                                        <span className="slider"></span>
+                                    </label>
+                                    <span>{patientDetails.hasMedicalHistory ? 'Yes' : 'No'}</span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    name="medicalHistoryDetails" 
+                                    placeholder="Details if Yes..." 
+                                    className="custom-input"
+                                    value={patientDetails.medicalHistoryDetails} 
+                                    onChange={handleInputChange} 
+                                />
+                            </div>
+                        </div>
+                        <div className="patient-details-card glass-card split">
+                            <h3><Activity size={18} className="text-accent" /> (6) Surgical History</h3>
+                            <div className="history-row">
+                                <div className="switch-group">
+                                    <label className="switch">
+                                        <input type="checkbox" name="hasSurgicalHistory" checked={patientDetails.hasSurgicalHistory} onChange={handleInputChange} />
+                                        <span className="slider"></span>
+                                    </label>
+                                    <span>{patientDetails.hasSurgicalHistory ? 'Yes' : 'No'}</span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    name="surgicalHistoryDetails" 
+                                    placeholder="Details if Yes..." 
+                                    className="custom-input"
+                                    value={patientDetails.surgicalHistoryDetails} 
+                                    onChange={handleInputChange} 
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 7: Sexual History */}
+                    <div className="patient-details-card glass-card">
+                        <h3><User size={18} className="text-accent" /> (7) Sexual History</h3>
+                        <div className="pd-form-grid">
+                            <div className="form-group">
+                                <label>Abstinence</label>
+                                <input type="text" name="sexualAbstinence" className="custom-input no-icon" placeholder="Abstinence details" value={patientDetails.sexualAbstinence} onChange={handleInputChange} />
+                            </div>
+                            <div className="form-group">
+                                <label>Use of Lubricants</label>
+                                <input type="text" name="sexualLubricants" className="custom-input no-icon" placeholder="e.g. Yes/No/Details" value={patientDetails.sexualLubricants} onChange={handleInputChange} />
+                            </div>
+                            <div className="form-group">
+                                <label>History of STD</label>
+                                <input type="text" name="sexualStdHistory" className="custom-input no-icon" placeholder="History of STD" value={patientDetails.sexualStdHistory} onChange={handleInputChange} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section 8: Lifestyle */}
+                    <div className="patient-details-card glass-card">
+                        <h3><Activity size={18} className="text-accent" /> (8) Lifestyle</h3>
+                        <div className="lifestyle-switches-grid">
+                            <div className="switch-group">
+                                <label className="switch">
+                                    <input type="checkbox" name="smoking" checked={patientDetails.smoking} onChange={handleInputChange} />
+                                    <span className="slider"></span>
+                                </label>
+                                <span>Smoking (Yes/No)</span>
+                            </div>
+                            <div className="switch-group">
+                                <label className="switch">
+                                    <input type="checkbox" name="alcohol" checked={patientDetails.alcohol} onChange={handleInputChange} />
+                                    <span className="slider"></span>
+                                </label>
+                                <span>Alcohol (Yes/No)</span>
+                            </div>
+                            <div className="switch-group">
+                                <label className="switch">
+                                    <input type="checkbox" name="drugAbuse" checked={patientDetails.drugAbuse} onChange={handleInputChange} />
+                                    <span className="slider"></span>
+                                </label>
+                                <span>Drug Abuse (Yes/No)</span>
+                            </div>
+                            <div className="switch-group">
+                                <label className="switch">
+                                    <input type="checkbox" name="physicalActivity" checked={patientDetails.physicalActivity} onChange={handleInputChange} />
+                                    <span className="slider"></span>
+                                </label>
+                                <span>Physical Activity (Yes/No)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="form-footer">
+                        <button className="btn btn-primary next-step-btn" onClick={nextTab}>
+                            Upload Images <ArrowRight size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {activeTab === 'images' && (
+                <div className="upload-images-content animate-fade-in">
+                    <div className="upload-header">
+                        <button className="btn-text back-btn" onClick={prevTab}>
+                             <ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} /> Back to Details
+                        </button>
+                        <p className="text-muted">Total images uploaded: {totalImages}/16</p>
+                    </div>
 
             <div className="grid-upload-container">
                 {[1, 2, 3, 4].map(gridId => {
@@ -348,6 +518,8 @@ export default function UploadPage() {
                     );
                 })}
             </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -117,6 +117,10 @@
     color: var(--text-primary);
 }
 
+.rpt-kv.full-width {
+    grid-column: 1 / -1;
+}
+
 .mono {
     font-family: 'JetBrains Mono', monospace;
 }
