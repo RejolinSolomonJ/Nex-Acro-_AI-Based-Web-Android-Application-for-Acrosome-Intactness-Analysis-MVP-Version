@@ -455,28 +455,114 @@ input:checked + .slider:before {
 
 /* ── Responsive ───────────────────── */
 @media (max-width: 1024px) {
+    .patient-details-card {
+        padding: 16px;
+    }
+
+    .patient-details-card h3 {
+        font-size: 1rem;
+    }
+
     .pd-form-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
 @media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .tab-navigation {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+        white-space: nowrap;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+
+    .patient-details-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
     .grid-upload-container {
         grid-template-columns: 1fr;
     }
 
     .gu-zone {
-        aspect-ratio: 21/9;
+        aspect-ratio: 16/9;
+    }
+
+    .patient-details-card {
+        padding: 20px;
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 580px) {
+    .patient-details-card {
+        padding: 16px;
+    }
+
+    .patient-details-card h3 {
+        font-size: 1rem;
+    }
+
+    .pd-form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .lifestyle-switches-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .history-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .custom-input {
+        width: 100%;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .start-analysis-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-footer .next-step-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
     .gu-zone {
         aspect-ratio: 16/9;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) { /* Mobile */
+    .patient-details-card {
+        padding: 16px;
+    }
+
+    .patient-details-card h3 {
+        font-size: 1rem;
+    }
+
     .pd-form-grid {
         grid-template-columns: 1fr;
     }
