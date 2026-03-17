@@ -168,14 +168,15 @@ def generate_analysis_report(
     pdf.kv_row("Patient ID",       record.patient_id or "N/A")
     
     # Demographic context
-    if record.age: 
-        pdf.kv_row("Age", str(record.age), col_w=40)
-    if record.education: 
-        pdf.kv_row("Education", record.education, col_w=40)
-    if record.occupation: 
-        pdf.kv_row("Occupation", record.occupation, col_w=40)
+    demo = []
+    if record.age: demo.append(f"Age: {record.age}")
+    if record.education: demo.append(f"Education: {record.education}")
+    if record.occupation: demo.append(f"Occupation: {record.occupation}")
+    if demo:
+        pdf.kv_row("Demographics", "  |  ".join(demo))
+
     if record.bmi: 
-        pdf.kv_row("BMI", f"{record.bmi:.1f}", col_w=40)
+        pdf.kv_row("BMI", f"{record.bmi:.1f}")
     
     # History
     if record.has_medical_history:
