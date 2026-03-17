@@ -198,13 +198,13 @@ export default function UploadPage() {
                         className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
                         onClick={() => setActiveTab('details')}
                     >
-                        1. Patient & Sample Details
+                        Patient & Sample Details
                     </button>
                     <button 
                         className={`tab-btn ${activeTab === 'images' ? 'active' : ''}`}
                         onClick={() => setActiveTab('images')}
                     >
-                        2. Upload Images
+                        Upload Images
                     </button>
                 </div>
                 <div className="header-actions">
@@ -225,7 +225,7 @@ export default function UploadPage() {
                 <div className="patient-details-content animate-fade-in">
                     {/* Section 1: Date */}
                     <div className="patient-details-card glass-card">
-                        <h3><Calendar size={18} className="text-accent" /> (1) Date</h3>
+                        <h3><Calendar size={18} className="text-accent" /> Date</h3>
                         <div className="pd-form-grid">
                             <div className="form-group">
                                 <label>Date</label>
@@ -239,7 +239,7 @@ export default function UploadPage() {
 
                     {/* Section 2: Patient Details */}
                     <div className="patient-details-card glass-card">
-                        <h3><User size={18} className="text-accent" /> (2) Patient Details</h3>
+                        <h3><User size={18} className="text-accent" /> Patient Details</h3>
                         <div className="pd-form-grid">
                             <div className="form-group">
                                 <label>Name</label>
@@ -267,7 +267,7 @@ export default function UploadPage() {
 
                     {/* Section 3: Demographic Details */}
                     <div className="patient-details-card glass-card">
-                        <h3><Activity size={18} className="text-accent" /> (3) Patient Demographic Details</h3>
+                        <h3><Activity size={18} className="text-accent" /> Patient Demographic Details</h3>
                         <div className="pd-form-grid">
                             <div className="form-group">
                                 <label>Age</label>
@@ -305,7 +305,7 @@ export default function UploadPage() {
 
                     {/* Section 4: Anthropometry */}
                     <div className="patient-details-card glass-card">
-                        <h3><Ruler size={18} className="text-accent" /> (4) Anthropometry</h3>
+                        <h3><Ruler size={18} className="text-accent" /> Anthropometry</h3>
                         <div className="pd-form-grid">
                             <div className="form-group">
                                 <label>Ht (cm)</label>
@@ -334,7 +334,7 @@ export default function UploadPage() {
                     {/* Section 5 & 6: Medical and Surgical History */}
                     <div className="patient-details-row">
                         <div className="patient-details-card glass-card split">
-                            <h3><Activity size={18} className="text-accent" /> (5) Medical History</h3>
+                            <h3><Activity size={18} className="text-accent" /> Medical History</h3>
                             <div className="history-row">
                                 <div className="switch-group">
                                     <label className="switch">
@@ -354,7 +354,7 @@ export default function UploadPage() {
                             </div>
                         </div>
                         <div className="patient-details-card glass-card split">
-                            <h3><Activity size={18} className="text-accent" /> (6) Surgical History</h3>
+                            <h3><Activity size={18} className="text-accent" /> Surgical History</h3>
                             <div className="history-row">
                                 <div className="switch-group">
                                     <label className="switch">
@@ -377,7 +377,7 @@ export default function UploadPage() {
 
                     {/* Section 7: Sexual History */}
                     <div className="patient-details-card glass-card">
-                        <h3><User size={18} className="text-accent" /> (7) Sexual History</h3>
+                        <h3><User size={18} className="text-accent" /> Sexual History</h3>
                         <div className="pd-form-grid">
                             <div className="form-group">
                                 <label>Abstinence</label>
@@ -396,7 +396,7 @@ export default function UploadPage() {
 
                     {/* Section 8: Lifestyle */}
                     <div className="patient-details-card glass-card">
-                        <h3><Activity size={18} className="text-accent" /> (8) Lifestyle</h3>
+                        <h3><Activity size={18} className="text-accent" /> Lifestyle</h3>
                         <div className="lifestyle-switches-grid">
                             <div className="switch-group">
                                 <label className="switch">
@@ -456,7 +456,7 @@ export default function UploadPage() {
                         <div key={gridId} className="grid-upload-box glass-card animate-fade-in-up" style={{ animationDelay: `${gridId * 100}ms` }}>
                             <div className="gu-header">
                                 <Grid3X3 size={18} className="text-accent" />
-                                <h3>Grid {gridId} Images ({gridImages.length}/4)</h3>
+                                <h3>Images ({gridImages.length}/4)</h3>
                                 {isGridConverting && <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.8rem', color: 'var(--accent)' }}><Loader2 size={14} className="animate-spin" /> Converting...</span>}
                             </div>
 
