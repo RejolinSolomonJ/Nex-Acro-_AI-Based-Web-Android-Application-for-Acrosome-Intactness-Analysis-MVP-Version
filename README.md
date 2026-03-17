@@ -10,19 +10,19 @@ NexAcro is a state-of-the-art AI-powered platform designed for laboratory profes
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
-- **🔬 AI-Powered Classification**: Utilizes a Convolutional Neural Network (CNN) trained on thousands of microscopic images to distinguish between "Intact" and "Damaged" acrosomes.
-- **📦 Batch Processing**: Upload and analyze multiple microscope images simultaneously.
-- **📊 Interactive Analytics**: Comprehensive dashboard showing trends, historical data, and success rates.
-- **📄 Automated PDF Reporting**: Generate professional, clinical-grade reports with patient details, image grids, and circular intactness graphs.
-- **📱 PWA & Mobile Optimized**: Built as a Progressive Web App (PWA) with specific optimizations for Android WebView and a responsive web interface.
-- **🔐 Secure Access**: JWT-based authentication for secure data management.
-- **🔄 Local & Cloud Deployment**: Configured for seamless deployment on Render, Vercel, and Docker environments.
+- **AI-Powered Classification**: Utilizes a Convolutional Neural Network (CNN) trained on thousands of microscopic images to distinguish between "Intact" and "Damaged" acrosomes.
+- **Batch Processing**: Upload and analyze multiple microscope images simultaneously.
+- **Interactive Analytics**: Comprehensive dashboard showing trends, historical data, and success rates.
+- **Automated PDF Reporting**: Generate professional, clinical-grade reports with patient details, image grids, and circular intactness graphs.
+- **PWA & Mobile Optimized**: Built as a Progressive Web App (PWA) with specific optimizations for Android WebView and a responsive web interface.
+- **Secure Access**: JWT-based authentication for secure data management.
+- **Local & Cloud Deployment**: Configured for seamless deployment on Render, Vercel, and Docker environments.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - **Framework**: [React 19](https://reactjs.org/)
@@ -40,7 +40,7 @@ NexAcro is a state-of-the-art AI-powered platform designed for laboratory profes
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 ├── backend/                # FastAPI Application
@@ -58,7 +58,7 @@ NexAcro is a state-of-the-art AI-powered platform designed for laboratory profes
 
 ---
 
-## 🚦 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js (>= 20.19.0)
@@ -110,6 +110,8 @@ This repository includes a `render.yaml` blueprint. Simply connect your GitHub r
 ### Vercel
 The frontend is optimized for Vercel deployment using the `vercel.json` configuration provided.
 
+Deployed Link : https://www.nexacro.in/
+
 ---
 
 ## 📄 License
@@ -120,8 +122,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🤝 Contact & Support
 
-**Developed by**: LIn's Infotech Company Limited
+**Developed by**: Lin's Infotech Company Limited
+**Contributed by**: Rejolin Solomon J | Veera Vaishnavi K
 **Project Purpose**: MVP Version for Acrosome Intactness Analysis
-
----
-*Created with ❤️ for Advanced Biological Analysis.*
