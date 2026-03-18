@@ -43,7 +43,7 @@ export async function getUserProfile() {
         full_name: 'Dr. Priya Sharma',
         role: 'doctor',
         is_active: true,
-        created_at: '2025-01-15T10:30:00Z',
+        created_at: '2026-01-15T10:30:00Z',
     };
 }
 

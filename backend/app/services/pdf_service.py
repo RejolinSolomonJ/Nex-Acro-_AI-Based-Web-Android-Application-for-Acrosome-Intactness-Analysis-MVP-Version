@@ -54,7 +54,7 @@ class AcrosomeReport(FPDF):
         self.set_text_color(120, 120, 120)
         self.cell(
             0, 5,
-            "Copyright (c) 2025 Nexacro . All Rights Reserved. | Developed by Lin's Infotech Company Ltd.",
+            "Copyright (c) 2026 Nexacro . All Rights Reserved. | Developed by Lin's Infotech Company Ltd.",
             align="C", new_x="LMARGIN", new_y="NEXT"
         )
         self.cell(

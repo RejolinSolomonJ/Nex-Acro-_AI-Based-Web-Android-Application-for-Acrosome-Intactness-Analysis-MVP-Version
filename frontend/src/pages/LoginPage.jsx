@@ -137,7 +137,7 @@ export default function LoginPage() {
                 </form>
 
                 <p className="login-footer-text">
-                    Copyright © 2025 Nexacro . All Rights Reserved. | Developed by Lin's Infotech Company Ltd.
+                    Copyright © 2026 Nexacro . All Rights Reserved. | Developed by Lin's Infotech Company Ltd.
                 </p>
             </div>
         </div>
