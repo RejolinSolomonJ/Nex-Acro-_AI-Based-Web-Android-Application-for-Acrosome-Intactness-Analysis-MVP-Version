@@ -8,7 +8,34 @@
     <title>NexAcro · AI Acrosome Analysis</title>
   </head>
   <body>
+    <script>
+      // Handle Vite chunk load errors (often caused by new deployments)
+      window.addEventListener('error', (e) => {
+        if (e.target.tagName === 'SCRIPT' || e.message.includes('Failed to fetch dynamically imported module')) {
+          console.warn('Script load error detected, reloading...', e);
+          const hasReloaded = sessionStorage.getItem('app-reloaded-on-error');
+          if (!hasReloaded) {
+            sessionStorage.setItem('app-reloaded-on-error', 'true');
+            // Clear all service worker caches and reload
+            if ('caches' in window) {
+              caches.keys().then((names) => {
+                for (let name of names) caches.delete(name);
+              });
+            }
+            window.location.reload();
+          }
+        }
+      }, true);
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Clear reload flag after successful boot
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          sessionStorage.removeItem('app-reloaded-on-error');
+        }, 3000);
+      });
+    </script>
   </body>
 </html>
